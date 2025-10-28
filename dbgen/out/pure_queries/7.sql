@@ -1,7 +1,3 @@
-
-set max_parallel_workers = 0;
-set effective_cache_size to '8 GB';
-set statement_timeout = '1000s';
 -- TPC TPC-H Parameter Substitution (Version 2.17.3 build 0)
 -- using default substitutions
 -- $ID$

@@ -6,7 +6,7 @@
 -- Approved February 1998
 
 
-explain analyze select
+select
 	s_acctbal,
 	s_name,
 	n_name,
