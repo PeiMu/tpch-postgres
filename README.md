@@ -59,20 +59,26 @@ cd tpch-postgre/dbgen/
 # set env configs and compile
 source ./compile.sh
 
-# generate data
-./dbgen -vf -s 1 
+# generate data with scale factor
+./dbgen -vf -s 1
+
+# setup postgres env
+export PREFIX=xxx # e.g., /home/xxx/Project/project_bins
+Project_path=$PREFIX
+alias pg_start='pg_ctl start -l $Project_path/logfile -D $Project_path/data'
+alias pg_stop='pg_ctl stop -D $Project_path/data -m smart -s'
+alias pg_log='vi $Project_path/logfile'
+alias rm_pg_log='rm $Project_path/logfile'
 
 # start service
-sudo systemctl start postgresql.service
+pg_start
 
-# create database (optional)
-sudo -u postgres psql -c "create database tpch;"
+# create user and database
+createuser tpch
+createdb tpch
 
-# switch database (optional)
-sudo -u postgres psql -c "\c tpch"
-
-# create tables (optional)
-sudo -u postgres psql < dss.ddl
+# create tables
+psql -U tpch -d tpch < dss.ddl
 
 # load data
 bash ./load_data.sh
@@ -81,18 +87,13 @@ bash ./load_data.sh
 psql -f pkeys.sql
 
 # generate foreign key
-psql -f fkeys.sql
+psql -U tpch -d tpch -f fkeys.sql
 
 # generate index
-psql -f index.sql
+psql -U tpch -d tpch -f index.sql
 
-# generate pure_quries (without timing functions, but has environment settings)
-# please remove the environment settings for the common use
-bash ./generate_pure_queries.sh
-
-# generate queries (with timing functions and environment settings)
-# please remove the environment settings for the common use
-bash ./generate_queries.sh
+# generate queries with scale factor
+bash ./generate_queries.sh 1
 
 # delete `(3)` manually
 vi out/queries/1.sql
