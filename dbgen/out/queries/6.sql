@@ -5,7 +5,6 @@
 -- Functional Query Definition
 -- Approved February 1998
 
-
 select
 	sum(l_extendedprice * l_discount) as revenue
 from
