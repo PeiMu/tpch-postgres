@@ -1,0 +1,36 @@
+-- $ID$
+-- TPC-H/TPC-R Pricing Summary Report Query (Q1)
+-- Functional Query Definition
+-- Approved February 1998
+SET max_parallel_workers_per_gather = 0;
+SET jit = on;
+--SET jit_dump_bitcode = on;
+SET jit_above_cost = 100000;  -- Force JIT for any query cost
+SET jit_optimize_above_cost = 500000;  -- Force optimization
+SET jit_inline_above_cost = 500000;    -- Force inlining
+SET jit_expressions = on;
+SET jit_tuple_deforming = on;
+--SET log_statement = 'all';
+EXPLAIN (ANALYZE, BUFFERS)
+
+select
+	l_returnflag,
+	l_linestatus,
+	sum(l_quantity) as sum_qty,
+	sum(l_extendedprice) as sum_base_price,
+	sum(l_extendedprice * (1 - l_discount)) as sum_disc_price,
+	sum(l_extendedprice * (1 - l_discount) * (1 + l_tax)) as sum_charge,
+	avg(l_quantity) as avg_qty,
+	avg(l_extendedprice) as avg_price,
+	avg(l_discount) as avg_disc,
+	count(*) as count_order
+from
+	lineitem
+where
+	l_shipdate <= date '1998-12-01' - interval '90' day
+group by
+	l_returnflag,
+	l_linestatus
+order by
+	l_returnflag,
+	l_linestatus;
