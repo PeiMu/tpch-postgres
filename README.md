@@ -84,7 +84,7 @@ psql -U tpch -d tpch < dss.ddl
 bash ./load_data.sh
 
 # generate primary key
-psql -f pkeys.sql
+psql -U tpch -d tpch -f pkeys.sql
 
 # generate foreign key
 psql -U tpch -d tpch -f fkeys.sql
