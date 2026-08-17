@@ -2,7 +2,16 @@
 -- TPC-H/TPC-R Pricing Summary Report Query (Q1)
 -- Functional Query Definition
 -- Approved February 1998
-
+SET max_parallel_workers_per_gather = 0;
+SET jit = off;
+--SET jit_dump_bitcode = on;
+--SET jit_above_cost = 100000;  -- Force JIT for any query cost
+--SET jit_optimize_above_cost = 500000;  -- Force optimization
+--SET jit_inline_above_cost = 500000;    -- Force inlining
+--SET jit_expressions = on;
+--SET jit_tuple_deforming = on;
+--SET log_statement = 'all';
+-- EXPLAIN (ANALYZE, BUFFERS)
 select
 	l_returnflag,
 	l_linestatus,

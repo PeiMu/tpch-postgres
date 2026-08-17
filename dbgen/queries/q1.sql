@@ -1,8 +1,14 @@
--- $ID$
--- TPC-H/TPC-R Pricing Summary Report Query (Q1)
--- Functional Query Definition
--- Approved February 1998
+--confirming jit is available
+SET jit = on;
+SET jit_dump_bitcode = on;
+SET jit_above_cost = 0;  -- Force JIT for any query cost
+SET jit_optimize_above_cost = 0;  -- Force optimization
+SET jit_inline_above_cost = 0;    -- Force inlining
+SET jit_expressions = on;
+SET jit_tuple_deforming = on;
+SET log_statement = 'all';
 
+EXPLAIN (ANALYZE, BUFFERS)
 select
 	l_returnflag,
 	l_linestatus,
