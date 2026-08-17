@@ -77,6 +77,11 @@ pg_start
 createuser tpch
 createdb tpch
 
+psql -d tpch
+# GRANT CREATE ON SCHEMA public TO tpch;
+# GRANT USAGE ON SCHEMA public TO tpch;
+# \q
+
 # create tables
 psql -U tpch -d tpch < dss.ddl
 
