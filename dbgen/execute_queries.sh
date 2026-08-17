@@ -1,4 +1,11 @@
-dir="$PWD/out/queries/"
+#!/bin/bash
+
+if [ -z "$1" ]; then
+  echo "Please enter scale factor to choose the correct database!"
+  exit 1
+fi
+
+dir="$PWD/out_$1/queries/"
 iteration=1
 
 rm -f result/*
